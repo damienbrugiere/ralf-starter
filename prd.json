@@ -17,8 +17,8 @@
                          "id":  "F002",
                          "title":  "Créer une partie",
                          "priority":  2,
-                         "status":  "todo",
-                         "attempts":  0,
+                         "status":  "done",
+                         "attempts":  1,
                          "dependsOn":  [
                                            "F001"
                                        ],
