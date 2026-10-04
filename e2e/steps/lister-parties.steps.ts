@@ -1,10 +1,11 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
+import { apiPost } from '../support/auth';
 
 const { Given, When, Then } = createBdd();
 
-Given('une partie {string} existe via l\'API', async ({ request }, name: string) => {
-  const response = await request.post('/api/games', { data: { name } });
+Given('une partie {string} existe via l\'API', async ({ page }, name: string) => {
+  const response = await apiPost(page, '/api/games', { name });
   expect(response.status()).toBe(201);
 });
 
@@ -18,8 +19,8 @@ Then('je vois la partie {string} dans la liste', async ({ page }, name: string) 
 
 let listResponse: { status: number; body: unknown } = { status: 0, body: null };
 
-When('je demande la liste des parties via l\'API', async ({ request }) => {
-  const response = await request.get('/api/games');
+When('je demande la liste des parties via l\'API', async ({ page }) => {
+  const response = await page.request.get('/api/games');
   listResponse = { status: response.status(), body: await response.json() };
 });
 

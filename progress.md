@@ -27,3 +27,12 @@ Projet initialisé.
 - E2E : `lister-parties.feature` + `steps/lister-parties.steps.ts`.
 - Piège : pas de Python sur la machine ; les variables de module des steps Playwright-BDD ne sont pas partagées entre fichiers, donc une étape « statut » propre à la feature (`l'API renvoie une liste`).
 - 2026-10-05 00:13 F003 tentative 1/3 : PASS
+
+### F004 — tentative 1
+- Backend : package `com.jdr.platform.auth` (`AppUser`, `UserService.registerLogin` = upsert, `ProviderProfile` pour extraire Discord/Google, `LoginUserServices` qui enveloppe `DefaultOAuth2UserService`/`OidcUserService`, `SecurityConfig`, `MeController`). Migration `V3__create_app_user.sql` (table `app_user`, unicité provider + provider_user_id). `CorsConfig` supprimé au profit du CORS Spring Security (credentials).
+- Sécurité : `/api/health` public, le reste de `/api/**` authentifié (401, pas de redirection) ; CSRF par cookie `XSRF-TOKEN` (Angular renvoie `X-XSRF-TOKEN`) ; logout = `POST /api/logout` (204) ; échec OAuth → redirection `/login?error=denied|provider`.
+- Discord n'a pas de provider intégré : déclaré dans `application.properties`, URI surchargeables par env (utilisées par le e2e).
+- Frontend : `auth/` (service avec signal `user`, garde `canActivateChild`, intercepteur 401 → `/login?expired=1`, page de connexion), en-tête avec nom/avatar/déconnexion. Proxy Angular et nginx relaient `/oauth2` et `/login/oauth2`.
+- E2E : faux fournisseur Discord `e2e/mock-oauth/server.js` (port 9100), `workers: 1` (état partagé), helpers `e2e/support/auth.ts` ; les features existantes se connectent d'abord et les appels API passent par `page.request` + en-tête CSRF.
+- Pièges : Java ne fait pas confiance au certificat intercepté pour Maven Central (PKIX) → `MAVEN_OPTS=-Djavax.net.ssl.trustStoreType=Windows-ROOT` pour télécharger les nouvelles dépendances (ensuite en cache). Tests MockMvc : `oauth2Login().oauth2User(...)` pour fixer l'attribut de nom ; `.with(csrf())` sur les POST.
+- 2026-10-05 00:53 F004 tentative 1/3 : PASS

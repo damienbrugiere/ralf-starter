@@ -1,5 +1,6 @@
 import { expect } from '@playwright/test';
 import { createBdd } from 'playwright-bdd';
+import { apiPost } from '../support/auth';
 
 const { Given, When, Then } = createBdd();
 
@@ -25,8 +26,8 @@ Then('je vois l\'erreur de nom {string}', async ({ page }, message: string) => {
   await expect(page.getByTestId('name-error')).toContainText(message);
 });
 
-When('je crée une partie via l\'API avec le nom {string}', async ({ request }, name: string) => {
-  const response = await request.post('/api/games', { data: { name } });
+When('je crée une partie via l\'API avec le nom {string}', async ({ page }, name: string) => {
+  const response = await apiPost(page, '/api/games', { name });
   apiStatus = response.status();
 });
 

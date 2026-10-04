@@ -1,0 +1,44 @@
+h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  color: #f1e8d5;
+}
+
+.intro {
+  margin: 0 0 24px;
+  color: #b9ae99;
+}
+
+.message {
+  padding: 12px 16px;
+  margin: 0 0 24px;
+  color: #c99545;
+  background: #211e1a;
+  border: 1px solid #c99545;
+  border-radius: 8px;
+}
+
+.providers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.provider {
+  display: inline-block;
+  padding: 12px 24px;
+  font-weight: 600;
+  color: #171513;
+  text-decoration: none;
+  background: #b68a3a;
+  border-radius: 4px;
+
+  &:hover {
+    background: #d0a653;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #f1e8d5;
+    outline-offset: 2px;
+  }
+}

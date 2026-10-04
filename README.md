@@ -810,3 +810,32 @@ Ralph
  +-- F002
  ¦    +-- atte
 ```
+
+# Connexion Discord / Google (F004)
+
+L'authentification repose sur OAuth2 / OpenID Connect (Spring Security `oauth2-client`) : aucun mot de passe n'est géré par l'application. La session est portée par un cookie côté serveur ; `GET /api/me` renvoie l'utilisateur courant (`401` sinon) et `POST /api/logout` termine la session. Les écritures (`POST`) exigent l'en-tête `X-XSRF-TOKEN` (Angular l'ajoute à partir du cookie `XSRF-TOKEN`).
+
+## Variables d'environnement
+
+Les identifiants ne sont jamais committés : ils sont lus depuis l'environnement (modèle : `environnements/.env.example`).
+
+| Variable | Rôle |
+| --- | --- |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_GOOGLE_CLIENT_ID` / `_CLIENT_SECRET` | Client OAuth Google |
+| `SPRING_SECURITY_OAUTH2_CLIENT_REGISTRATION_DISCORD_CLIENT_ID` / `_CLIENT_SECRET` | Application Discord |
+| `CORS_ALLOWED_ORIGINS` | Origines autorisées (avec cookies), `http://localhost:4200` par défaut |
+
+Sans identifiants le backend démarre quand même (valeur factice `not-configured`) mais la connexion échoue chez le fournisseur. Ne pas définir une variable vide : elle écraserait la valeur par défaut.
+
+## URL de redirection à déclarer
+
+Le navigateur passe par le frontend (proxy Angular en développement, nginx en Docker), qui relaie `/oauth2/**` et `/login/oauth2/**` vers le backend :
+
+- Google : `http://localhost:4200/login/oauth2/code/google`
+- Discord : `http://localhost:4200/login/oauth2/code/discord`
+
+(En accès direct au backend, remplacer par `http://localhost:8080/...`.) Chez Discord, activer les scopes `identify` et `email` ; chez Google, `openid`, `profile`, `email`.
+
+## Tests
+
+Aucun appel réel n'est fait : les tests backend simulent la connexion, et le e2e démarre un faux fournisseur Discord (`e2e/mock-oauth/server.js`, port 9100) vers lequel le backend est redirigé par variables d'environnement.
