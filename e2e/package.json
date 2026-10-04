@@ -1,0 +1,13 @@
+{
+  "name": "jdr-e2e",
+  "version": "1.0.0",
+  "scripts": {
+    "test": "bddgen && playwright test"
+  },
+  "type": "commonjs",
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "playwright-bdd": "^9.2.1"
+  },
+  "private": true
+}

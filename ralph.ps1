@@ -40,18 +40,47 @@ function Write-Progress-Entry([string]$Line) {
 }
 
 # Execute une commande native, affiche et journalise sa sortie (stdout + stderr), retourne le code de sortie.
-function Invoke-Logged([string]$Log, [scriptblock]$Command) {
+function Invoke-Logged([string]$Log, [scriptblock]$Command, [scriptblock]$Filter = $null) {
     $previous = $ErrorActionPreference
     $ErrorActionPreference = "Continue"
     try {
         & $Command 2>&1 | ForEach-Object {
             $line = "$_"
+            if ($Filter) { $line = & $Filter $line }
+            if ($null -eq $line) { return }
             Write-Host $line
             [IO.File]::AppendAllText($Log, "$line`r`n", $utf8)
         }
         return $LASTEXITCODE
     } finally {
         $ErrorActionPreference = $previous
+    }
+}
+
+# Convertit une ligne du flux `claude --output-format stream-json` en texte lisible ($null = ignorer).
+function Format-ClaudeEvent([string]$Line) {
+    if (-not $Line.StartsWith("{")) { return $Line }
+    try { $e = $Line | ConvertFrom-Json } catch { return $Line }
+    $t = Get-Date -Format "HH:mm:ss"
+    switch ($e.type) {
+        "system" { if ($e.subtype -eq "init") { return "[$t] session demarree (modele : $($e.model))" } return $null }
+        "assistant" {
+            $out = @()
+            foreach ($c in $e.message.content) {
+                if ($c.type -eq "text" -and $c.text.Trim()) { $out += "[$t] $($c.text.Trim())" }
+                elseif ($c.type -eq "tool_use") {
+                    $arg = $c.input.command
+                    if (-not $arg) { $arg = $c.input.file_path }
+                    if (-not $arg) { $arg = $c.input.pattern }
+                    if (-not $arg) { $arg = $c.input.description }
+                    if ($arg -and $arg.Length -gt 140) { $arg = $arg.Substring(0, 140) + "..." }
+                    $out += "[$t] > $($c.name) $arg"
+                }
+            }
+            if ($out.Count) { return ($out -join "`n") } return $null
+        }
+        "result" { return "[$t] termine ($($e.subtype), $([math]::Round($e.duration_ms / 1000))s)`n$($e.result)" }
+        default { return $null }
     }
 }
 
@@ -141,10 +170,10 @@ for ($i = 1; $i -le $MaxIterations; $i++) {
     $verifyLog = Join-Path $LogDir "$id-attempt$attempt-$stamp-verify.log"
 
     # --- Agent ---
-    $claudeArgs = @("-p", "--permission-mode", $PermissionMode, "--output-format", "text")
+    $claudeArgs = @("-p", "--permission-mode", $PermissionMode, "--output-format", "stream-json", "--verbose")
     if ($Model) { $claudeArgs += @("--model", $Model) }
     Write-Host "Claude travaille... (log : $agentLog)" -ForegroundColor DarkGray
-    $agentExit = Invoke-Logged $agentLog { $prompt | & $AgentCommand @claudeArgs }
+    $agentExit = Invoke-Logged $agentLog { $prompt | & $AgentCommand @claudeArgs } { param($l) Format-ClaudeEvent $l }
 
     # --- Verification (barriere objective) ---
     $verifyExit = 1

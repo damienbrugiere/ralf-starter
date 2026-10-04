@@ -12,3 +12,4 @@ Critères :
 - tests frontend
 - build frontend
 - documentation minimale
+- E2E Playwright avec du gherkin

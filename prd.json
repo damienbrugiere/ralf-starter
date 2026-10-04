@@ -6,8 +6,8 @@
                          "id":  "F001",
                          "title":  "Initialiser le projet",
                          "priority":  1,
-                         "status":  "todo",
-                         "attempts":  0,
+                         "status":  "done",
+                         "attempts":  2,
                          "dependsOn":  [
 
                                        ],

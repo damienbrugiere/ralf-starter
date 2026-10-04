@@ -11,3 +11,8 @@ coverage/
 !.ralph/logs/.gitkeep
 !.ralph/state/.gitkeep
 !.ralph/knowledge/.gitkeep
+
+!.env.example
+.features-gen/
+test-results/
+playwright-report/

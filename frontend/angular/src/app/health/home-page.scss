@@ -1,0 +1,32 @@
+h1 {
+  margin: 0 0 8px;
+  font-size: 2rem;
+  color: #f1e8d5;
+}
+
+.intro {
+  margin: 0 0 24px;
+  color: #b9ae99;
+}
+
+.status-card {
+  padding: 24px;
+  background: #211e1a;
+  border: 1px solid #2a2621;
+  border-radius: 8px;
+
+  h2 {
+    margin: 0 0 12px;
+    font-size: 1.125rem;
+    color: #d0a653;
+  }
+}
+
+.status {
+  margin: 0;
+  font-weight: 600;
+}
+
+.status-loading { color: #817766; }
+.status-up { color: #6e9b63; }
+.status-down { color: #a9564f; }
