@@ -1,0 +1,39 @@
+{
+    "project":  "jdr-platform",
+    "maxAttemptsPerFeature":  3,
+    "features":  [
+                     {
+                         "id":  "F001",
+                         "title":  "Initialiser le projet",
+                         "priority":  1,
+                         "status":  "todo",
+                         "attempts":  0,
+                         "dependsOn":  [
+
+                                       ],
+                         "spec":  "docs/features/F001-initialiser-projet.md"
+                     },
+                     {
+                         "id":  "F002",
+                         "title":  "Créer une partie",
+                         "priority":  2,
+                         "status":  "todo",
+                         "attempts":  0,
+                         "dependsOn":  [
+                                           "F001"
+                                       ],
+                         "spec":  "docs/features/F002-creer-partie.md"
+                     },
+                     {
+                         "id":  "F003",
+                         "title":  "Lister les parties",
+                         "priority":  3,
+                         "status":  "todo",
+                         "attempts":  0,
+                         "dependsOn":  [
+                                           "F002"
+                                       ],
+                         "spec":  "docs/features/F003-lister-parties.md"
+                     }
+                 ]
+}
