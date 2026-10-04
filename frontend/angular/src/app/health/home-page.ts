@@ -10,7 +10,10 @@ type BackendState = 'loading' | 'up' | 'down';
   template: `
     <h1>Bienvenue</h1>
     <p class="intro">Plateforme de jeu de rôle.</p>
-    <p><a routerLink="/games/new" class="cta">Créer une partie</a></p>
+    <p>
+      <a routerLink="/games" class="cta">Voir les parties</a>
+      <a routerLink="/games/new" class="cta">Créer une partie</a>
+    </p>
     <section class="status-card" aria-live="polite">
       <h2>État du serveur</h2>
       <p data-testid="backend-status" [class]="'status status-' + state()">

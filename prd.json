@@ -28,8 +28,8 @@
                          "id":  "F003",
                          "title":  "Lister les parties",
                          "priority":  3,
-                         "status":  "todo",
-                         "attempts":  0,
+                         "status":  "done",
+                         "attempts":  1,
                          "dependsOn":  [
                                            "F002"
                                        ],

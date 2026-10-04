@@ -1,0 +1,78 @@
+h1 {
+  margin: 0 0 24px;
+  font-size: 2rem;
+  color: #f1e8d5;
+}
+
+.cta,
+button {
+  display: inline-block;
+  padding: 12px 24px;
+  font: inherit;
+  font-weight: 600;
+  color: #171513;
+  text-decoration: none;
+  background: #b68a3a;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+
+  &:hover {
+    background: #d0a653;
+  }
+
+  &:focus-visible {
+    outline: 2px solid #f1e8d5;
+    outline-offset: 2px;
+  }
+}
+
+.info {
+  color: #b9ae99;
+}
+
+.empty {
+  padding: 24px;
+  background: #211e1a;
+  border: 1px solid #2a2621;
+  border-radius: 8px;
+}
+
+.error {
+  padding: 24px;
+  color: #a9564f;
+  background: #211e1a;
+  border: 1px solid #a9564f;
+  border-radius: 8px;
+
+  p {
+    margin: 0 0 16px;
+  }
+}
+
+.games {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0;
+  margin: 24px 0 0;
+  list-style: none;
+}
+
+.game {
+  padding: 16px 24px;
+  background: #211e1a;
+  border: 1px solid #2a2621;
+  border-radius: 8px;
+
+  h2 {
+    margin: 0 0 8px;
+    font-size: 1.25rem;
+    color: #f1e8d5;
+  }
+
+  p {
+    margin: 0;
+    color: #b9ae99;
+  }
+}

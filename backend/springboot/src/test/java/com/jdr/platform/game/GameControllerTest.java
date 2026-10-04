@@ -1,6 +1,7 @@
 package com.jdr.platform.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,7 +64,29 @@ class GameControllerTest {
 	}
 
 	@Test
-	void rejectsMalformedBody() throws Exception {
+	void listsEmptyWhenNoGame() throws Exception {
+		repository.deleteAll();
+		mockMvc.perform(get("/api/games"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").isArray())
+				.andExpect(jsonPath("$.length()").value(0));
+	}
+
+	@Test
+	void listsGamesMostRecentFirst() throws Exception {
+		repository.deleteAll();
+		postJson("{\"name\":\"Première\"}").andExpect(status().isCreated());
+		postJson("{\"name\":\"Seconde\",\"description\":\"d\"}").andExpect(status().isCreated());
+		mockMvc.perform(get("/api/games"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.length()").value(2))
+				.andExpect(jsonPath("$[0].name").value("Seconde"))
+				.andExpect(jsonPath("$[0].description").value("d"))
+				.andExpect(jsonPath("$[1].name").value("Première"));
+	}
+
+	@Test
+	void rejectsMalformedBody()throws Exception {
 		postJson("{not json")
 				.andExpect(status().isBadRequest())
 				.andExpect(jsonPath("$.message").value("Corps de requête invalide"));

@@ -20,3 +20,10 @@ Projet initialisé.
 - Décisions : nom trimé, 1–100 caractères, description optionnelle (≤ 2000, vide → null). Pas de handler `Exception` générique (masquerait les 404/405).
 - Piège : ajouter `RouterLink` à `HomePage` impose `provideRouter([])` dans son spec existant.
 - 2026-10-05 00:09 F002 tentative 1/3 : PASS
+
+### F003 — tentative 1
+- Backend : `GET /api/games` (liste triée du plus récent au plus ancien, `findAllByOrderByCreatedAtDescIdDesc`), pas de migration nécessaire. Tests MockMvc : liste vide et ordre.
+- Frontend : `GameService.list()`, page `GameListPage` (`/games`) avec états chargement / vide / erreur (+ bouton Réessayer) / liste ; lien « Voir les parties » depuis l'accueil. Tests Vitest.
+- E2E : `lister-parties.feature` + `steps/lister-parties.steps.ts`.
+- Piège : pas de Python sur la machine ; les variables de module des steps Playwright-BDD ne sont pas partagées entre fichiers, donc une étape « statut » propre à la feature (`l'API renvoie une liste`).
+- 2026-10-05 00:13 F003 tentative 1/3 : PASS

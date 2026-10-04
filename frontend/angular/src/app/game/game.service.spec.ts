@@ -20,4 +20,19 @@ describe('GameService', () => {
     expect(result).toEqual(game);
     http.verify();
   });
+
+  it('should call GET /api/games', () => {
+    TestBed.configureTestingModule({ providers: [provideHttpClient(), provideHttpClientTesting()] });
+    const service = TestBed.inject(GameService);
+    const http = TestBed.inject(HttpTestingController);
+
+    let result: unknown;
+    service.list().subscribe((r) => (result = r));
+
+    const req = http.expectOne('/api/games');
+    expect(req.request.method).toBe('GET');
+    req.flush([]);
+    expect(result).toEqual([]);
+    http.verify();
+  });
 });

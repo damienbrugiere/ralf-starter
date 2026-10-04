@@ -18,6 +18,10 @@ export interface Game {
 export class GameService {
   private readonly http = inject(HttpClient);
 
+  list(): Observable<Game[]> {
+    return this.http.get<Game[]>('/api/games');
+  }
+
   create(request: CreateGameRequest): Observable<Game> {
     return this.http.post<Game>('/api/games', request);
   }
