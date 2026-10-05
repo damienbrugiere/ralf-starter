@@ -45,6 +45,17 @@
                                            "F003"
                                        ],
                          "spec":  "docs/features/F004-connexion-discord-google.md"
+                     },
+                     {
+                         "id":  "F005",
+                         "title":  "Refonte complète du design",
+                         "priority":  5,
+                         "status":  "done",
+                         "attempts":  1,
+                         "dependsOn":  [
+                                           "F004"
+                                       ],
+                         "spec":  "docs/features/F005-refonte-design.md"
                      }
                  ]
 }

@@ -1,17 +1,18 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Button, Card, Input, ToastService } from '../ui';
 import { Game, GameService } from './game.service';
 
 @Component({
   selector: 'app-create-game-page',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, Button, Card, Input],
   template: `
     <h1>Créer une partie</h1>
-    <form class="game-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
+    <app-card><form class="game-form" [formGroup]="form" (ngSubmit)="submit()" novalidate>
       <div class="field">
         <label for="name">Nom</label>
-        <input id="name" type="text" formControlName="name" maxlength="100" required
+        <input appInput id="name" type="text" formControlName="name" maxlength="100" required
                [attr.aria-invalid]="showNameError() ? 'true' : null"
                aria-describedby="name-error" />
         @if (showNameError()) {
@@ -22,13 +23,13 @@ import { Game, GameService } from './game.service';
       </div>
       <div class="field">
         <label for="description">Description (optionnelle)</label>
-        <textarea id="description" rows="4" formControlName="description" maxlength="2000"></textarea>
+        <textarea appInput id="description" rows="4" formControlName="description" maxlength="2000"></textarea>
       </div>
       @if (errorMessage()) {
         <p class="form-error" role="alert" data-testid="form-error">{{ errorMessage() }}</p>
       }
-      <button type="submit" [disabled]="submitting()">Créer la partie</button>
-    </form>
+      <button type="submit" appButton variant="warm" [disabled]="submitting()">{{ submitting() ? 'Création…' : 'Créer la partie' }}</button>
+    </form></app-card>
     @if (created(); as game) {
       <p class="success" role="status" data-testid="game-created">
         Partie « {{ game.name }} » créée.
@@ -39,6 +40,7 @@ import { Game, GameService } from './game.service';
 })
 export class CreateGamePage {
   private readonly games = inject(GameService);
+  private readonly toast = inject(ToastService);
   private readonly fb = inject(FormBuilder).nonNullable;
 
   protected readonly form = this.fb.group({
@@ -71,6 +73,7 @@ export class CreateGamePage {
       next: (game) => {
         this.submitting.set(false);
         this.created.set(game);
+        this.toast.show(`Partie « ${game.name} » créée.`);
         this.submitted.set(false);
         this.form.reset();
       },

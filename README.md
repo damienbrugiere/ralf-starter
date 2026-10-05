@@ -11,6 +11,21 @@ Stack :
 - Claude Code (claude -p)
 - Ralph
 
+# Lancer l'application avec Docker
+
+Copier `environnements/.env.example` en `environnements/.env.local` et renseigner les identifiants OAuth, puis, à la racine du projet :
+
+```powershell
+docker compose -f ops/compose/docker-compose.yml --env-file environnements/.env.local up -d
+```
+
+L'option `--env-file` est indispensable : sans elle, Compose ne lit pas `environnements/.env.local` et le backend démarre avec `not-configured` comme identifiants OAuth (la connexion Discord / Google échoue alors).
+
+- Frontend : http://localhost:4200
+- Backend : http://localhost:8080
+- Arrêt : `docker compose -f ops/compose/docker-compose.yml down`
+- Après un changement de code : ajouter `--build` à la commande de lancement.
+
 # Exécution des features avec Ralph
 
 Ce document explique comment Ralph sélectionne, exécute et valide les features du projet JDR.

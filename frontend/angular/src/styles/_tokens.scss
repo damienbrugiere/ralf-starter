@@ -1,0 +1,88 @@
+:root,
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: #0e1220;
+  --surface: #151a2c;
+  --surface-2: #1c2238;
+  --border: #2c3454;
+  --text: #e9ebf7;
+  --text-muted: #a8aecb;
+  --accent: #8b7cf6;
+  --accent-hover: #a094f8;
+  --on-accent: #0e1220;
+  --warm: #f0a35a;
+  --warm-hover: #f4b574;
+  --on-warm: #0e1220;
+  --success: #5fd0a0;
+  --warning: #f0b45a;
+  --danger: #ff8f8f;
+  --info: #7db8ff;
+  --focus-ring: #c4bcff;
+  --halo: rgb(139 124 246 / 14%);
+  --grain-opacity: 0.05;
+  --shadow-sm: 0 1px 2px rgb(0 0 0 / 30%);
+  --shadow-md: 0 8px 24px rgb(0 0 0 / 35%);
+}
+
+:root[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f5f5fb;
+  --surface: #ffffff;
+  --surface-2: #ecedf7;
+  --border: #d4d6ea;
+  --text: #181b33;
+  --text-muted: #50567a;
+  --accent: #5b49d6;
+  --accent-hover: #4a39c0;
+  --on-accent: #ffffff;
+  --warm: #a8480a;
+  --warm-hover: #8f3d08;
+  --on-warm: #ffffff;
+  --success: #0f6b49;
+  --warning: #85560a;
+  --danger: #b42318;
+  --info: #1e5aa8;
+  --focus-ring: #5b49d6;
+  --halo: rgb(91 73 214 / 10%);
+  --grain-opacity: 0.035;
+  --shadow-sm: 0 1px 2px rgb(24 27 51 / 8%);
+  --shadow-md: 0 8px 24px rgb(24 27 51 / 12%);
+}
+
+:root {
+  --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  --font-display: 'Iowan Old Style', 'Palatino Linotype', Palatino, 'Book Antiqua', Georgia, serif;
+
+  --text-xs: 0.8125rem;
+  --text-sm: 0.9375rem;
+  --text-md: 1rem;
+  --text-lg: 1.25rem;
+  --text-xl: 1.625rem;
+  --text-2xl: 2.25rem;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 999px;
+
+  --border-width: 1px;
+  --focus-width: 2px;
+  --target-min: 44px;
+  --content-width: 760px;
+  --avatar-size: 32px;
+  --icon-size: 20px;
+  --toast-width: 360px;
+
+  --duration-fast: 120ms;
+  --duration: 200ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}

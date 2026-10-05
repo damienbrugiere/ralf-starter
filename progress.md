@@ -36,3 +36,10 @@ Projet initialisé.
 - E2E : faux fournisseur Discord `e2e/mock-oauth/server.js` (port 9100), `workers: 1` (état partagé), helpers `e2e/support/auth.ts` ; les features existantes se connectent d'abord et les appels API passent par `page.request` + en-tête CSRF.
 - Pièges : Java ne fait pas confiance au certificat intercepté pour Maven Central (PKIX) → `MAVEN_OPTS=-Djavax.net.ssl.trustStoreType=Windows-ROOT` pour télécharger les nouvelles dépendances (ensuite en cache). Tests MockMvc : `oauth2Login().oauth2User(...)` pour fixer l'attribut de nom ; `.with(csrf())` sur les POST.
 - 2026-10-05 00:53 F004 tentative 1/3 : PASS
+
+### F005 — tentative 1
+- Tokens CSS dans `frontend/angular/src/styles/` (`_tokens.scss` thèmes dark/light via `data-theme` sur `<html>`, `_ui.scss` styles des composants UI), `DESIGN.md` et `components.md` réécrits.
+- Composants `app/ui/` : Button/Input (directives `appButton`/`appInput`), Card, Badge, Spinner, EmptyState, Toast (`ToastService` + `app-toast-outlet`). `ThemeService` (`app/theme/`) : `localStorage['theme']`, sinon `prefers-color-scheme`, sinon sombre. Tous les écrans refondus ; en-tête avec logo, navigation, bascule `data-testid="theme-toggle"`.
+- Tests : specs `theme.service`, `ui`; e2e `theme.feature` (défaut + persistance). Sélecteurs/data-testid existants conservés.
+- Pièges : Chromium traite « no-preference » comme `light` (`matches` vrai) → le e2e émule explicitement `dark`. jsdom n'a pas `window.matchMedia` (service tolérant, `Object.defineProperty` dans les tests). Des serveurs 4200/8080 résiduels (reuseExistingServer) faisaient échouer tout le e2e (vrai Discord appelé) : les arrêter avant verify. Éviter les heredocs bash contenant des backticks/quotes : utiliser Write.
+- 2026-10-05 02:21 F005 tentative 1/3 : PASS
